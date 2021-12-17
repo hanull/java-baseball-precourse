@@ -35,7 +35,20 @@ public class BaseballGame {
 	}
 
 	public void play() {
+		do {
+			Numbers playerNumbers = inputNumbers();
 
+		} while (true);
+	}
+
+	private Numbers inputNumbers() {
+		try {
+			OutputView.printInputNumbers();
+			return InputView.inputNumbers();
+		} catch (IllegalArgumentException exception) {
+			OutputView.printException(exception);
+			return inputNumbers();
+		}
 	}
 
 	public boolean isFinish() {
