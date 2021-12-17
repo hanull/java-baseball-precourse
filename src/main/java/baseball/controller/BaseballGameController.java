@@ -6,11 +6,10 @@ public class BaseballGameController {
 
 	private BaseballGame baseballGame;
 
-	public BaseballGameController() {
-		baseballGame = new BaseballGame();
-	}
-
 	public void run() {
-
+		do {
+			baseballGame = new BaseballGame();
+			baseballGame.play();
+		} while (!baseballGame.isFinish());
 	}
 }
