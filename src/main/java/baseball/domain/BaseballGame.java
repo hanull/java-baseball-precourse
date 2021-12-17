@@ -17,7 +17,7 @@ public class BaseballGame {
 	private static final String FINISH_STRING_TYPE = "2";
 	private static final String ERROR_INVALID_RESTART_OR_FINISH = "[ERROR] 입력값이 잘못되었습니다.";
 
-	private Numbers answerNumbers;
+	private final Numbers answerNumbers;
 
 	public BaseballGame() {
 		this.answerNumbers = generateNumbers();
@@ -25,7 +25,7 @@ public class BaseballGame {
 
 	private Numbers generateNumbers() {
 		List<Integer> answerNumbers = new ArrayList<>();
-		while (answerNumbers.size() == TARGET_PICK_COUNT) {
+		while (answerNumbers.size() < TARGET_PICK_COUNT) {
 			int pickNumber = Randoms.pickNumberInRange(MINIMUM_NUMBER, MAXIMUM_NUMBER);
 			if (!answerNumbers.contains(pickNumber)) {
 				answerNumbers.add(pickNumber);
@@ -35,28 +35,29 @@ public class BaseballGame {
 	}
 
 	public void play() {
-		do {
+		while (true) {
 			Numbers playerNumbers = inputNumbers();
+			Result result = new Result(answerNumbers.getNumbers(), playerNumbers.getNumbers());
+			printResult(result);
+			if (result.isAnswer()) {
+				OutputView.printAnswer();
+				break;
+			}
+		}
+	}
 
-		} while (true);
+	private void printResult(Result result) {
+		OutputView.printHint(result.getBall(), result.getStrike());
 	}
 
 	private Numbers inputNumbers() {
-		try {
-			OutputView.printInputNumbers();
-			return InputView.inputNumbers();
-		} catch (IllegalArgumentException exception) {
-			OutputView.printException(exception);
-			return inputNumbers();
-		}
+		OutputView.printInputNumbers();
+		return InputView.inputNumbers();
 	}
 
 	public boolean isFinish() {
 		int restartOfFinish = getRestartOfFinish();
-		if (restartOfFinish == RESTART) {
-			return false;
-		}
-		return true;
+		return restartOfFinish != RESTART;
 	}
 
 	private int getRestartOfFinish() {

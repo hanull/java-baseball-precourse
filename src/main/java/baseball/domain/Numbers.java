@@ -11,7 +11,7 @@ public class Numbers {
 	private static final String ERROR_DUPLICATE = "중복된 숫자가 존재합니다.";
 	private static final int NUMBER_LENGTH = 3;
 
-	private List<Integer> numbers;
+	private final List<Integer> numbers;
 
 	public Numbers(List<Integer> numbers) {
 		this.numbers = numbers;
@@ -25,7 +25,7 @@ public class Numbers {
 	private List<Integer> generateNumbers(String inputNumbers) {
 		List<Integer> numberList = new ArrayList<>();
 		for (char number : inputNumbers.toCharArray()) {
-			numberList.add(number - '0');
+			numberList.add(Character.getNumericValue(number));
 		}
 		return numberList;
 	}
@@ -61,5 +61,9 @@ public class Numbers {
 			}
 		}
 		return true;
+	}
+
+	public List<Integer> getNumbers() {
+		return numbers;
 	}
 }
